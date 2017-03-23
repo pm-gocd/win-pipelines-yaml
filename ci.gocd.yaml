@@ -21,7 +21,7 @@ pipelines:
                    source: output
               tasks:
               - exec:
-                  command: "C:\cygwin64\bin\bash.exe"
+                  command: "C:\\cygwin64\\bin\\bash.exe"
                   arguments:
                   - -x
                   - ./calc.sh
@@ -43,7 +43,7 @@ pipelines:
                    source: output
               tasks:
               - exec:
-                  command: "C:\cygwin64\bin\bash.exe"
+                  command: "C:\\cygwin64\\bin\\bash.exe"
                   arguments:
                   - -x
                   - ./calc.sh
@@ -76,7 +76,7 @@ pipelines:
                   source: output
                   destination: upstream
               - exec:
-                  command: "C:\cygwin64\bin\bash.exe"
+                  command: "C:\\cygwin64\\bin\\bash.exe"
                   arguments:
                   - -x
                   - ./calc.sh
@@ -109,7 +109,7 @@ pipelines:
                   source: output
                   destination: upstream
               - exec:
-                  command: "C:\cygwin64\bin\bash.exe"
+                  command: "C:\\cygwin64\\bin\\bash.exe"
                   arguments:
                   - -x
                   - ./calc.sh
@@ -142,7 +142,7 @@ pipelines:
                   source: output
                   destination: upstream
               - exec:
-                  command: "C:\cygwin64\bin\bash.exe"
+                  command: "C:\\cygwin64\\bin\\bash.exe"
                   arguments:
                   - -x
                   - ./calc.sh
@@ -175,7 +175,7 @@ pipelines:
                   source: output
                   destination: upstream
               - exec:
-                  command: "C:\cygwin64\bin\bash.exe"
+                  command: "C:\\cygwin64\\bin\\bash.exe"
                   arguments:
                   - -x
                   - ./calc.sh
@@ -208,7 +208,7 @@ pipelines:
                   source: output
                   destination: upstream
               - exec:
-                  command: "C:\cygwin64\bin\bash.exe"
+                  command: "C:\\cygwin64\\bin\\bash.exe"
                   arguments:
                   - -x
                   - ./calc.sh
@@ -263,7 +263,7 @@ pipelines:
                   source: output
                   destination: upstream
               - exec:
-                  command: "C:\cygwin64\bin\bash.exe"
+                  command: "C:\\cygwin64\\bin\\bash.exe"
                   arguments:
                   - -x
                   - ./calc.sh
@@ -296,7 +296,7 @@ pipelines:
                   source: output
                   destination: upstream
               - exec:
-                  command: "C:\cygwin64\bin\bash.exe"
+                  command: "C:\\cygwin64\\bin\\bash.exe"
                   arguments:
                   - -x
                   - ./calc.sh
@@ -329,7 +329,7 @@ pipelines:
                   source: output
                   destination: upstream
               - exec:
-                  command: "C:\cygwin64\bin\bash.exe"
+                  command: "C:\\cygwin64\\bin\\bash.exe"
                   arguments:
                   - -x
                   - ./calc.sh
@@ -397,7 +397,7 @@ pipelines:
                   source: output
                   destination: upstream
               - exec:
-                  command: "C:\cygwin64\bin\bash.exe"
+                  command: "C:\\cygwin64\\bin\\bash.exe"
                   arguments:
                   - -x
                   - ./calc.sh
