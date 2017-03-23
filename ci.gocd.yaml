@@ -1,0 +1,403 @@
+# Testing PAC in yaml format
+environments:
+  pensionsdags_1:
+    environment_variables:
+      PAYCHECK1: 19000
+pipelines:
+  pac1_socarb:
+    group: pac1_workshop
+    label_template: "socarb-${COUNT}-${src[:4]}"
+    materials:
+      src:  # Name of material
+        git: https://github.com/pm-gocd/socarb.git
+        branch: master
+        auto_update: false
+    stages:
+      - defaultStage: # Name of stage
+          jobs:
+            defaultJob: # Name of the job
+              artifacts:
+               - build:
+                   source: output
+              tasks:
+              - exec:
+                  command: "C:\cygwin64\bin\bash.exe"
+                  arguments:
+                  - -x
+                  - ./calc.sh
+
+  pac1_lon:
+    group: pac1_workshop
+    label_template: "lon-${COUNT}-${src[:4]}"
+    materials:
+      src:  # Name of material
+        git: https://github.com/pm-gocd/lon.git
+        branch: master
+        auto_update: false
+    stages:
+      - defaultStage: # Name of stage
+          jobs:
+            defaultJob: # Name of the job
+              artifacts:
+               - build:
+                   source: output
+              tasks:
+              - exec:
+                  command: "C:\cygwin64\bin\bash.exe"
+                  arguments:
+                  - -x
+                  - ./calc.sh
+
+  pac1_privatpension:
+    group: pac1_workshop
+    label_template: "priv-${COUNT}-${pac1_lon}-${src[:4]}"
+    materials:
+      src:  # Name of material
+        git: https://github.com/pm-gocd/privatpension.git
+        branch: master
+        auto_update: false
+      pac1_lon:
+        type: dependency
+        pipeline: pac1_lon
+        stage: defaultStage
+    stages:
+      - defaultStage: # Name of stage
+          jobs:
+            defaultJob: # Name of the job
+              artifacts:
+               - build:
+                   source: output
+              tasks:
+              - fetch:
+                  pipeline: pac1_lon
+                  stage: defaultStage
+                  job: defaultJob
+                  is_file: no
+                  source: output
+                  destination: upstream
+              - exec:
+                  command: "C:\cygwin64\bin\bash.exe"
+                  arguments:
+                  - -x
+                  - ./calc.sh
+
+  pac1_tjanstepension:
+    group: pac1_workshop
+    label_template: "tjanst-${COUNT}-${pac1_lon}-${src[:4]}"
+    materials:
+      src:  # Name of material
+        git: https://github.com/pm-gocd/tjanstepension.git
+        branch: master
+        auto_update: false
+      pac1_lon:
+        type: dependency
+        pipeline: pac1_lon
+        stage: defaultStage
+    stages:
+      - defaultStage: # Name of stage
+          jobs:
+            defaultJob: # Name of the job
+              artifacts:
+               - build:
+                   source: output
+              tasks:
+              - fetch:
+                  pipeline: pac1_lon
+                  stage: defaultStage
+                  job: defaultJob
+                  is_file: no
+                  source: output
+                  destination: upstream
+              - exec:
+                  command: "C:\cygwin64\bin\bash.exe"
+                  arguments:
+                  - -x
+                  - ./calc.sh
+
+  pac1_alderspensionsavgift:
+    group: pac1_workshop
+    label_template: "alder-${COUNT}-${pac1_socarb}-${src[:4]}"
+    materials:
+      src:  # Name of material
+        git: https://github.com/pm-gocd/alderspensionsavgift.git
+        branch: master
+        auto_update: false
+      pac1_socarb:
+        type: dependency
+        pipeline: pac1_socarb
+        stage: defaultStage
+    stages:
+      - defaultStage: # Name of stage
+          jobs:
+            defaultJob: # Name of the job
+              artifacts:
+               - build:
+                   source: output
+              tasks:
+              - fetch:
+                  pipeline: pac1_socarb
+                  stage: defaultStage
+                  job: defaultJob
+                  is_file: no
+                  source: output
+                  destination: upstream
+              - exec:
+                  command: "C:\cygwin64\bin\bash.exe"
+                  arguments:
+                  - -x
+                  - ./calc.sh
+
+  pac1_allmanpensionsavgift:
+    group: pac1_workshop
+    label_template: "allmavg-${COUNT}-${pac1_lon}-${src[:4]}"
+    materials:
+      src:  # Name of material
+        git: https://github.com/pm-gocd/allmanpensionsavgift.git
+        branch: master
+        auto_update: false
+      pac1_lon:
+        type: dependency
+        pipeline: pac1_lon
+        stage: defaultStage
+    stages:
+      - defaultStage: # Name of stage
+          jobs:
+            defaultJob: # Name of the job
+              artifacts:
+               - build:
+                   source: output
+              tasks:
+              - fetch:
+                  pipeline: pac1_lon
+                  stage: defaultStage
+                  job: defaultJob
+                  is_file: no
+                  source: output
+                  destination: upstream
+              - exec:
+                  command: "C:\cygwin64\bin\bash.exe"
+                  arguments:
+                  - -x
+                  - ./calc.sh
+
+  pac1_arbetsgivaravgift-egenavgift:
+    group: pac1_workshop
+    label_template: "arbavg-eavg-${COUNT}-${pac1_lon}-${src[:4]}"
+    materials:
+      src:  # Name of material
+        git: https://github.com/pm-gocd/arbetsgivaravgift-egenavgift.git
+        branch: master
+        auto_update: false
+      pac1_lon:
+        type: dependency
+        pipeline: pac1_lon
+        stage: defaultStage
+    stages:
+      - defaultStage: # Name of stage
+          jobs:
+            defaultJob: # Name of the job
+              artifacts:
+               - build:
+                   source: output
+              tasks:
+              - fetch:
+                  pipeline: pac1_lon
+                  stage: defaultStage
+                  job: defaultJob
+                  is_file: no
+                  source: output
+                  destination: upstream
+              - exec:
+                  command: "C:\cygwin64\bin\bash.exe"
+                  arguments:
+                  - -x
+                  - ./calc.sh
+
+  pac1_pensionsratter:
+    group: pac1_workshop
+    label_template: "pratter-${COUNT}-${src[:4]}"
+    materials:
+      src:  # Name of material
+        git: https://github.com/pm-gocd/pensionsratter.git
+        branch: master
+        auto_update: false
+      pac1_alderspensionsavgift:
+        type: dependency
+        pipeline: pac1_alderspensionsavgift
+        stage: defaultStage
+      pac1_allmanpensionsavgift:
+        type: dependency
+        pipeline: pac1_allmanpensionsavgift
+        stage: defaultStage
+      pac1_arbetsgivaravgift-egenavgift:
+        type: dependency
+        pipeline: pac1_arbetsgivaravgift-egenavgift
+        stage: defaultStage
+    stages:
+      - defaultStage: # Name of stage
+          jobs:
+            defaultJob: # Name of the job
+              artifacts:
+               - build:
+                   source: output
+              tasks:
+              - fetch:
+                  pipeline: pac1_alderspensionsavgift
+                  stage: defaultStage
+                  job: defaultJob
+                  is_file: no
+                  source: output
+                  destination: upstream
+              - fetch:
+                  pipeline: pac1_allmanpensionsavgift
+                  stage: defaultStage
+                  job: defaultJob
+                  is_file: no
+                  source: output
+                  destination: upstream
+              - fetch:
+                  pipeline: pac1_arbetsgivaravgift-egenavgift
+                  stage: defaultStage
+                  job: defaultJob
+                  is_file: no
+                  source: output
+                  destination: upstream
+              - exec:
+                  command: "C:\cygwin64\bin\bash.exe"
+                  arguments:
+                  - -x
+                  - ./calc.sh
+
+  pac1_inkomstpension:
+    group: pac1_workshop
+    label_template: "inkpens-${COUNT}-${src[:4]}"
+    materials:
+      src:  # Name of material
+        git: https://github.com/pm-gocd/inkomstpension.git
+        branch: master
+        auto_update: false
+      pac1_pensionsratter:
+        type: dependency
+        pipeline: pac1_pensionsratter
+        stage: defaultStage
+    stages:
+      - defaultStage: # Name of stage
+          jobs:
+            defaultJob: # Name of the job
+              artifacts:
+               - build:
+                   source: output
+              tasks:
+              - fetch:
+                  pipeline: pac1_pensionsratter
+                  stage: defaultStage
+                  job: defaultJob
+                  is_file: no
+                  source: output
+                  destination: upstream
+              - exec:
+                  command: "C:\cygwin64\bin\bash.exe"
+                  arguments:
+                  - -x
+                  - ./calc.sh
+
+  pac1_premiepension:
+    group: pac1_workshop
+    label_template: "prempens-${COUNT}-${src[:4]}"
+    materials:
+      src:  # Name of material
+        git: https://github.com/pm-gocd/premiepension.git
+        branch: master
+        auto_update: false
+      pac1_pensionsratter:
+        type: dependency
+        pipeline: pac1_pensionsratter
+        stage: defaultStage
+    stages:
+      - defaultStage: # Name of stage
+          jobs:
+            defaultJob: # Name of the job
+              artifacts:
+               - build:
+                   source: output
+              tasks:
+              - fetch:
+                  pipeline: pac1_pensionsratter
+                  stage: defaultStage
+                  job: defaultJob
+                  is_file: no
+                  source: output
+                  destination: upstream
+              - exec:
+                  command: "C:\cygwin64\bin\bash.exe"
+                  arguments:
+                  - -x
+                  - ./calc.sh
+
+  pac1_dinpension:
+    group: pac1_workshop
+    label_template: "dinpension-${COUNT}-${src[:4]}"
+    materials:
+      src:  # Name of material
+        git: https://github.com/pm-gocd/dinpension.git
+        branch: master
+        auto_update: false
+      pac1_inkomstpension:
+        type: dependency
+        pipeline: pac1_inkomstpension
+        stage: defaultStage
+      pac1_premiepension:
+        type: dependency
+        pipeline: pac1_premiepension
+        stage: defaultStage
+      pac1_tjanstepension:
+        type: dependency
+        pipeline: pac1_tjanstepension
+        stage: defaultStage
+      pac1_privatpension:
+        type: dependency
+        pipeline: pac1_privatpension
+        stage: defaultStage
+    stages:
+      - defaultStage: # Name of stage
+          jobs:
+            defaultJob: # Name of the job
+              artifacts:
+              - build:
+                  source: output
+              tabs:
+                  DinPension: output/dinpension.html
+              tasks:
+              - fetch:
+                  pipeline: pac1_inkomstpension
+                  stage: defaultStage
+                  job: defaultJob
+                  is_file: no
+                  source: output
+                  destination: upstream
+              - fetch:
+                  pipeline: pac1_premiepension
+                  stage: defaultStage
+                  job: defaultJob
+                  is_file: no
+                  source: output
+                  destination: upstream
+              - fetch:
+                  pipeline: pac1_tjanstepension
+                  stage: defaultStage
+                  job: defaultJob
+                  is_file: no
+                  source: output
+                  destination: upstream
+              - fetch:
+                  pipeline: pac1_privatpension
+                  stage: defaultStage
+                  job: defaultJob
+                  is_file: no
+                  source: output
+                  destination: upstream
+              - exec:
+                  command: "C:\cygwin64\bin\bash.exe"
+                  arguments:
+                  - -x
+                  - ./calc.sh
